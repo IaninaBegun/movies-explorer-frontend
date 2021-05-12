@@ -1,0 +1,52 @@
+.filter-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 41px;
+  max-width: fit-content;
+  padding-bottom: 70px;
+}
+
+.filter-form__title {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  display: block;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  margin-left: 12px;
+  color: black;
+}
+
+.filter-form__checkbox {
+  display: flex;
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0px 4px 4px rgba(50, 50, 71, 0.08), 0px 4px 8px rgba(50, 50, 71, 0.06);;
+}
+
+.filter-form__input {
+  visibility: hidden;
+}
+
+.filter-form__label {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background-color: #2be080;
+  border-radius: 16px;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.filter-form__input:checked + .filter-form__label  {
+  left: 18px;
+}
