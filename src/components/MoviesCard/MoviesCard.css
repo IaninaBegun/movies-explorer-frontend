@@ -107,3 +107,18 @@
   opacity: 1;
   transition: visibility .2s, opacity .2s ease;
 }
+
+@media screen and (max-width: 1090px) {
+  .movie__image {
+    max-width: 500px;
+  }
+
+}
+
+@media screen and (max-width: 716px) {
+  .movie__image {
+    max-width: 716px;
+  }
+
+}
+

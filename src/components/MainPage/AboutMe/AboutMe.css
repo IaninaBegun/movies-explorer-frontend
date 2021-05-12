@@ -97,3 +97,43 @@
 .aboutMe__link:first-of-type {
   margin-right: 20px;
 }
+
+@media screen and (max-width: 1050px) {
+
+  .aboutMe__caption {
+    margin-right: 49px;
+  }
+  .aboutMe__image {
+    width: 270px;
+    height: 327px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .aboutMe {
+    width: calc(100% - 2 * 50px);
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 650px) {
+
+  .aboutMe {
+    width: calc(100% - 2 * 14px);
+    margin: 0 auto;
+  }
+
+  .aboutMe__section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .aboutMe__caption {
+    margin-right: 0px;
+  }
+
+  .aboutMe__image {
+    margin-bottom: 40px;
+  }
+}
+

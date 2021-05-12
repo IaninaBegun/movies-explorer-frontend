@@ -62,3 +62,10 @@
 .input-filmSearch:hover {
   border-bottom: 1px solid  #2be080;
 }
+
+@media screen and (max-width: 1090px) {
+  .form-filmSearch {
+    max-width: 708px;
+  }
+
+}

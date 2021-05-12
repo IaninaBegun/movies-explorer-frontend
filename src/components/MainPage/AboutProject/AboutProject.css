@@ -59,7 +59,7 @@
 .intro__item {
   font-size: 14px;
   font-weight: 400;
-  line-height: 16.94px;
+  line-height: 17px;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -79,6 +79,20 @@
 
 .intro__item_text {
   font-weight: 500;
-  line-height: 17px;
   color: #a0a0a0;
+}
+
+@media screen and (max-width: 600px) {
+  .intro__columns {
+    flex-direction: column;
+  }
+
+  .intro {
+    padding: 70px 18px;
+  }
+
+  .intro__item {
+    font-size: 11px;
+    line-height: 13px;
+  }
 }
