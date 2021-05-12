@@ -14,6 +14,7 @@
 .input-filmSearch {
   display: flex;
   width: 50%;
+  height: 46px;
   box-sizing: border-box;
   border: none;
   color:#a0a0a0;
@@ -24,6 +25,12 @@
   margin: 0;
   padding: 0;
   padding-left:22px;
+  border-radius: 40px;
+}
+
+.input-filmSearch_invalid {
+  color: #ee3465;
+  border-bottom: 1px solid  #ee3465;
 }
 
 .btn-filmSearch {
@@ -38,4 +45,20 @@
   font-weight: 500;
   border: none;
   border-radius: 48px;
+}
+
+.form-filmSearch__error-message {
+  display: inline-block;
+  color: #ee3465;
+  font-size: 10px;
+  line-height: 12px;
+  padding-top: 6px;
+  width: 89%;
+  max-width: 1140px;
+  padding-left: 20px;
+  box-sizing: border-box;
+}
+
+.input-filmSearch:hover {
+  border-bottom: 1px solid  #2be080;
 }

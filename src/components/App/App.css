@@ -23,3 +23,7 @@
   width:100%;
   max-width: 1280px;
 }
+
+.page__section_small {
+  margin-left: calc((100% - 396px) / 2);
+}
