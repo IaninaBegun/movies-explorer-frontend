@@ -40,3 +40,15 @@
   display: none;
 }
 
+@media screen and (max-width: 438px) {
+  .movies {
+    width: calc(100% - 2 * 10px);
+  }
+}
+
+@media screen and (max-width: 438px) {
+  .movies {
+    width: calc(100% - 2 * 5px);
+  }
+}
+

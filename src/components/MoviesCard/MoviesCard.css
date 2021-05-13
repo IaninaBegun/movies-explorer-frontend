@@ -48,6 +48,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  padding: 0;
 }
 
 .movie__title {
@@ -119,6 +120,32 @@
   .movie__image {
     max-width: 716px;
   }
+}
 
+@media screen and (max-width: 438px) {
+  .movie__image {
+    width: 100%;
+    max-width: 438px;
+  }
+  .movie__item {
+    padding-left: 0;
+    padding-right: 0;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .movie__title {
+    max-width: 240px;
+  }
+  .movie__btn {
+    right: 20px;
+  }
+  .movie__image {
+    width: 100%;
+    max-width: 350px;
+  }
 }
 

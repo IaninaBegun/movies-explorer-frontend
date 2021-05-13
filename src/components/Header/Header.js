@@ -28,10 +28,10 @@ function Header () {
             <Navigation/>
           </Route>
           <Route path="/signin">
-            <Link to="/" className="header__logo-link page__section_small"/>
+            <Link to="/" className="header__logo-link"/>
           </Route>
           <Route path="/signup">
-            <Link to="/" className="header__logo-link page__section_small"/>
+            <Link to="/" className="header__logo-link"/>
           </Route>
       </Switch>
     </header>
