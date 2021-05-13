@@ -60,6 +60,7 @@
 .header__nav-link_saved-movies {
   font-weight: 400;
   margin-left: 20px;
+  text-decoration: none;
 }
 
 .header__nav-btn {
@@ -89,6 +90,7 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
+  text-decoration: none;
 }
 
 .header__profile-img {
@@ -138,6 +140,67 @@
     width: 0;
   }
 
+  .header__nav-link {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    padding-bottom: 4px;
+  }
+
+  .header__nav-link_saved-movies {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: black;
+    margin-left: 0;
+    padding-bottom: 4px;
+  }
+
+  .header__nav-link_profile {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: black;
+    margin-top: 621px;
+    padding-bottom: 4px;
+  }
+
+  .header__nav-link_movies {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: black;
+    padding-bottom: 4px;
+    margin-top: 28px;
+    margin-bottom: 28px;
+    text-decoration: none;
+  }
+
+  .header__nav-link:hover {
+    border-bottom: 2px solid black;
+    cursor: pointer;
+  }
+
+  .header__nav-link_saved-movies:hover {
+    border-bottom: 2px solid black;
+    cursor: pointer;
+  }
+
+  .header__nav-link_movies:hover {
+    border-bottom: 2px solid black;
+    cursor: pointer;
+  }
+
+  .header__nav-link_inactive {
+    display: none;
+    color: black;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
   .header__nav-btn {
     display: flex;
     visibility: visible;
@@ -160,7 +223,4 @@
     width: 100%;
   }
 
-}
-* {
-  border: 1px solid red;
 }
