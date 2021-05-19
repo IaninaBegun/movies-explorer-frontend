@@ -59,6 +59,10 @@
   background-color: transparent;
 }
 
+.profile__btn:disabled {
+  background-color: #e8e8e8;
+}
+
 .profile__link {
   display: flex;
   width: 100%;

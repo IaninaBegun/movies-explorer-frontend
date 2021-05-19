@@ -49,6 +49,11 @@
   font-size: 14px;
   background-color: transparent;
   color: black;
+  outline: none;
+}
+
+.register__input:focus {
+  outline: none;
 }
 
 .register__btn {
@@ -61,7 +66,12 @@
   border-radius: 3px;
   box-sizing: border-box;
   padding: 0;
-  margin: 134px 0 0;
+  margin: 0;
+}
+
+.register__btn:disabled {
+  background-color: #e8e8e8;
+  color: black;
 }
 
 .register__btn:hover {
@@ -116,6 +126,11 @@
 }
 .register__input_valid {
   border-bottom: 1px solid  #2be080;
+
+}
+
+.register__input_valid:last-of-type {
+  margin-bottom: 134px;
 }
 
 .register__input_invalid {

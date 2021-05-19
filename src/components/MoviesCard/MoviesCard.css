@@ -13,7 +13,7 @@
 .movie__image {
   max-width: 360px;
   width: 100%;
-  min-height: 201px;
+  height: 201px;
   cursor: pointer;
 }
 
@@ -119,6 +119,7 @@
 @media screen and (max-width: 716px) {
   .movie__image {
     max-width: 716px;
+    height: 190px;
   }
 }
 
@@ -126,6 +127,8 @@
   .movie__image {
     width: 100%;
     max-width: 438px;
+    border-radius: 6px;
+    height: 168px;
   }
   .movie__item {
     padding-left: 0;
