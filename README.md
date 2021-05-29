@@ -1,3 +1,8 @@
+
+
+**(http://ianinabegun.diploma.nomoredomains.icu)** Фронтенд
+IP адрес сервера - 178.154.213.245
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

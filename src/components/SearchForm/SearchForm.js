@@ -3,9 +3,12 @@ import React from 'react';
 import './SearchForm.css';
 
 function SearchForm({onSearch}) {
+  /*console.log(onSearch);*/
 
   const [ movieSearch, setMovieSearch ] = React.useState('');
   const [ movieErrMessage, setMovieErrMessage ] = React.useState('');
+
+  /*console.log(movieSearch);*/
 
   const [ formValid, setFormValid ] = React.useState(false);
 
@@ -25,7 +28,8 @@ function SearchForm({onSearch}) {
       setMovieErrMessage('Нужно ввести ключевое слово');
     }
 
-    onSearch(movieSearch.toLowerCase());
+    setMovieErrMessage('');
+    onSearch(movieSearch);
   }
 
   return (

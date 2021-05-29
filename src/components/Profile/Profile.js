@@ -8,8 +8,6 @@ function Profile( {onSignOut, onUpdateUser, onError} ) {
 
   const currentUser = React.useContext(CurrentUserContext);
 
-  console.log(currentUser);
-
   const [ name, setName ] = React.useState('');
   const [ email, setEmail ] = React.useState('');
 
@@ -63,8 +61,6 @@ function Profile( {onSignOut, onUpdateUser, onError} ) {
       email: email,
     });
   }
-
-
 
   return(
     <section className="profile">

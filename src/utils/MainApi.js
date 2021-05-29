@@ -84,17 +84,22 @@ export const getSavedMovies = () => {
 
 /* добавление фильма в сохранённые */
 
-export const addNewMovie = (name, link) => {
+export const addNewMovie = (movie) => {
   return fetch(`${baseUrl}/movies`, {
     method: 'POST',
     headers: getToken(),
-    body: JSON.stringify({
-      name: name,
-      link: link
-    })
+    body: JSON.stringify(movie)
   })
   .then(checkResponse)
 }
+ /* удаление фильма из сохранённых */
 
+export const deleteCard = (id) => {
+  return fetch(`${baseUrl}/movies/${id}`, {
+    method: 'DELETE',
+    headers: getToken()
+  })
+  .then(checkResponse)
+}
 
 

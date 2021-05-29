@@ -2,36 +2,72 @@ import React from 'react';
 
 import './MoviesCard.css';
 
+function MoviesCard ({
+  movie,
+  isSavedMovie,
+  onSavedMovie,
+  onDeleteMovie}) {
 
-function MoviesCard ({movie, isSavedMovie}) {
 
-  const [ isSaved, setIsSaved ] = React.useState(false);
+  const savedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
+  const isAddedMovie = savedMovies.find((i) => i.movieId === movie.movieId);
 
-  function movieIsSaved () {
-    setIsSaved(true);
+  function toggleMovieSavedState (movie) {
+    onSavedMovie(movie);
   }
 
+  /* функция для перевода минут в часы */
   function countHours(mins) {
     let hours = Math.trunc(mins/60);
     let minutes = mins % 60;
     return hours + 'ч ' + minutes + 'м';
   }
 
-  const imageUrl = `https://api.nomoreparties.co${movie.image.url}`;
 
   return(
-    <li className="movie__element">
-      {!isSavedMovie ?
-      <button className={`movie__btn ${ isSaved ? `movie__btn_saved` : `movie__btn_notSaved`}`} type="button" onClick={() => movieIsSaved()}>{ isSaved ? `` : `Сохранить`}</button>
-      : <button className="movie__btn movie__btn_remove"/>}
+    <>
+    { isSavedMovie ?
 
-      <img className="movie__image" src={imageUrl} alt={movie.nameRU} />
-      <div className="movie__item">
-        <h3 className="movie__title">{movie.nameRU}</h3>
-        <p className="movie__duration">{countHours(movie.duration)}</p>
-      </div>
-    </li>
+      (<li className="movie__element">
+
+        <button className="movie__btn movie__btn_remove" onClick={() => onDeleteMovie(movie)}/>
+        <a className="movie__trailerlink"
+          href={movie.trailer}
+          target="_blank"
+          rel="noreferrer oopener"
+        >
+          <img className="movie__image" src={movie.image} alt={movie.nameRU} />
+        </a>
+        <div className="movie__item">
+          <h3 className="movie__title">{movie.nameRU}</h3>
+          <p className="movie__duration">{countHours(movie.duration)}</p>
+        </div>
+      </li>)
+
+      :
+
+      (<li className="movie__element">
+        <button className={`movie__btn ${ isAddedMovie ? `movie__btn_saved` : `movie__btn_notSaved`}`}
+          type="button"
+          onClick={() => toggleMovieSavedState(movie)}>
+          { isAddedMovie ? `` : `Сохранить`}
+        </button>
+        <a className="movie__trailerlink"
+          href={movie.trailer}
+          target="_blank"
+          rel="noreferrer oopener"
+        >
+        <img className="movie__image" src={movie.image} alt={movie.nameRU} />
+        </a>
+        <div className="movie__item">
+          <h3 className="movie__title">{movie.nameRU}</h3>
+          <p className="movie__duration">{countHours(movie.duration)}</p>
+        </div>
+      </li>)
+    }
+    </>
   )
+
 }
 
 export default MoviesCard;

@@ -156,7 +156,7 @@ function Register ({ onRegister, onError }) {
           ? `register__error-message` : `register__error-message_inactive`
           }>{passwordErrMessage}</span>
 
-        <span>{onError}</span>
+        {<span>{onError}</span>}
         <button disabled={!formValid} type="submit" className="register__btn">Зарегистрироваться</button>
 
       </form>
