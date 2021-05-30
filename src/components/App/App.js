@@ -51,54 +51,6 @@ function App() {
     }
   }, [isLoggedIn]);
 
-  /* эффект для загрузки и сохранения данных
-  пользователя при входе на сайт */
-
-  React.useEffect(() =>{
-    if (!isLoggedIn) return;
-    const jwt = localStorage.getItem('jwt');
-    tokenCheck();
-    MainApi.getContent(jwt)
-      .then((data) => {
-        setCurrentUser(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [isLoggedIn]);
-
-  /* эффект для загрузки и сохранения сохранённых фильмов
-  пользователя при входе на сайт */
-
-  React.useEffect(() => {
-    if (!isLoggedIn) return;
-    const jwt = localStorage.getItem('jwt');
-    if(jwt) {
-      MainApi.getSavedMovies()
-      .then((res) => {
-        if (res) {
-          setSavedMovies(res);
-        }
-      })
-      .catch((err) => {
-        setInfoTooltipPopupOpen(true);
-        if (err === 400) {
-          setErrMessage( `Ошибка 400: Токен не передан или передан не в том формате.` );
-        }
-        if (err === 401) {
-          setErrMessage( 'Ошибка 401: Переданный токен некорректен.' );
-        } else {
-          setErrMessage('Что-то пошло не так');
-        }
-      })
-      .finally(() => {
-        setErrMessage('');
-        closeAllPopups();
-      })
-    }
-    localStorage.setItem('moviesSaved', JSON.stringify(savedMovies) );
-  }, [isLoggedIn, savedMovies]);
-
   /* функция для проверки токена пользователя */
 
   const tokenCheck = () => {
@@ -189,7 +141,7 @@ function App() {
       .then((res) => {
         if (res.status !== 400) {
           handleLogin(password, email);
-          setIsLoggedIn(true);
+          /*setIsLoggedIn(true);*/
           history.push('/movies');
           setErrMessage(`Регистрация прошла успешно!`);
           setInfoTooltipPopupOpen(true);
@@ -240,16 +192,18 @@ function App() {
 
   function handleSaveMovie(movie) {
 
-    const isSavedMovie = savedMovies.some(i => i.movieId === movie.movieId);
+    const localSavedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
+
+    const isSavedMovie = localSavedMovies.some(i => i.movieId === movie.movieId);
 
     if (!isSavedMovie) {
 
       MainApi.addNewMovie(movie)
         .then((newMovie) => {
 
-          setSavedMovies([newMovie, ...savedMovies]);
+          setSavedMovies([newMovie, ...localSavedMovies]);
           movie.isCurrentlySaved = true;
-          localStorage.setItem('moviesSaved', JSON.stringify(savedMovies) );
+          localStorage.setItem('moviesSaved', JSON.stringify(localSavedMovies) );
       })
       .catch((err) => {
         setErrMessage(err);
@@ -263,18 +217,20 @@ function App() {
   }
 
   function handleDeleteMovie(movie) {
-    const savedMovieToDelete = savedMovies.find(i => i.movieId === movie.movieId);
+    /*console.log(`я в удалении`);*/
+    const localSavedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
+    const savedMovieToDelete = localSavedMovies.find(i => i.movieId === movie.movieId);
 
     MainApi.deleteCard(savedMovieToDelete._id)
       .then(() => {
 
-        const newMovies = savedMovies.filter((movieSaved) => {
+        const newMovies = localSavedMovies.filter((movieSaved) => {
           return movieSaved.movieId !== savedMovieToDelete.movieId;
         });
 
         setSavedMovies(newMovies);
         movie.isCurrentlySaved = false;
-        localStorage.setItem('moviesSaved', JSON.stringify(savedMovies) );
+        localStorage.setItem('moviesSaved', JSON.stringify(localSavedMovies) );
     })
     .catch((err) => {
       setErrMessage(err);
@@ -296,6 +252,21 @@ function App() {
     }
   }
 
+  /* эффект для загрузки и сохранения данных
+  пользователя при входе на сайт */
+
+  React.useEffect(() =>{
+    if (!isLoggedIn) return;
+    const jwt = localStorage.getItem('jwt');
+    tokenCheck();
+    MainApi.getContent(jwt)
+      .then((data) => {
+        setCurrentUser(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [isLoggedIn]);
 
   /* эффект для редиректа, если пользователь уже залогинен */
 
@@ -310,7 +281,7 @@ function App() {
 
   /* функция для получения фильмов с сервера BeatFilm */
 
-  function searchMovies (dataMovie) {
+  function getInitialMovies (dataMovie) {
 
     setIsLoading(true);
     MoviesApi.getMovies()
@@ -325,7 +296,14 @@ function App() {
         setIsLoading(false);
         setFindingErr(false);
       })
-    const moviesFoundArray = adjustedMovies.filter(movie => {
+    searchMovies(dataMovie);
+  }
+
+  function searchMovies (dataMovie) {
+
+    const localMovies = JSON.parse(localStorage.getItem('moviesTotal'));
+
+    const moviesFoundArray = localMovies.filter(movie => {
       return movie.nameRU.toLowerCase().includes(dataMovie);
     });
 
@@ -383,7 +361,7 @@ function App() {
             component={Movies}
             isLoggedIn={isLoggedIn}
             onSearch={searchMovies}
-            movies={adjustedMovies}
+            initialMovies={getInitialMovies}
             foundMovies={moviesFound}
             isSaved={false}
             onSavedMovie={handleCLickMovieButton}
@@ -395,7 +373,6 @@ function App() {
           <ProtectedRoute exact path="/saved-movies"
             component={SavedMovies}
             isLoggedIn={isLoggedIn}
-            foundMovies={savedMovies}
             isSaved={true}
             isLoading={isLoading}
             onDeleteMovie={handleDeleteMovie}
