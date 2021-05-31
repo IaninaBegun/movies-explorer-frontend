@@ -35,6 +35,7 @@ function App() {
   const [ errMessage, setErrMessage ] = React.useState('');
   const [ savedMovies, setSavedMovies ] = React.useState([]);
   const [ isFindingErr, setFindingErr ] = React.useState(false);
+  const [ isCurrentlySaved, setIsCurentlySaved ] = React.useState(false);
 
   /* эффект для загрузки найденных фильмов (если они есть)
   пользователя при повторном входе на сайт */
@@ -242,7 +243,8 @@ function App() {
         .then((newMovie) => {
 
           setSavedMovies([newMovie, ...savedMovies]);
-          movie.isCurrentlySaved = true;
+          setIsCurentlySaved(true);
+          /*movie.isCurrentlySaved = true;*/
           localStorage.setItem('moviesSaved', JSON.stringify([newMovie, ...savedMovies]) );
       })
       .catch((err) => {
@@ -263,7 +265,8 @@ function App() {
         });
         console.log(newMovies);
         setSavedMovies([...newMovies]);
-        movie.isCurrentlySaved = false;
+        /*movie.isCurrentlySaved = false;*/
+        setIsCurentlySaved(false);
         localStorage.setItem('moviesSaved', JSON.stringify(newMovies) );
     })
     .catch((err) => {
@@ -275,7 +278,7 @@ function App() {
   /* функция для клика по кнопке сохранить/удалить */
 
   function handleCLickMovieButton(movie) {
-    if (!movie._id) {
+    if (!isCurrentlySaved && !movie._id) {
       handleSaveMovie(movie);
     } else {
       handleDeleteMovie(movie);
@@ -428,6 +431,7 @@ function App() {
             isLoading={isLoading}
             onFilter={filterMovies}
             onErr={isFindingErr}
+            isCurrentlySaved={isCurrentlySaved}
           />
 
           <ProtectedRoute exact path="/saved-movies"

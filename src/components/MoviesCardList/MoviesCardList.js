@@ -8,6 +8,7 @@ function MoviesCardList ( {
     foundMovies,
     onSavedMovie,
     onDeleteMovie,
+    isCurrentlySaved
   } ) {
 
   /*console.log(foundMovies);*/
@@ -72,6 +73,7 @@ function MoviesCardList ( {
                 foundMovies={foundMovies}
                 onSavedMovie={onSavedMovie}
                 onDeleteMovie={onDeleteMovie}
+                isCurrentlySaved={isCurrentlySaved}
               />
             );
         })}
@@ -81,7 +83,7 @@ function MoviesCardList ( {
 
       <button
         type="submit"
-        className={ !isSavedMovie || !foundMovies || moviesToRender < foundMovies.length ? `movies__btn` : `movies__btn_invsible`}
+        className={ !foundMovies || (!isSavedMovie && moviesToRender < foundMovies.length) ? `movies__btn` : `movies__btn_invsible`}
         onClick={() => handleShowMoreMovies()}
       >Ещё</button>
 

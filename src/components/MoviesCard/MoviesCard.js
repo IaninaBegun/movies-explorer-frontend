@@ -3,10 +3,14 @@ import React from 'react';
 import './MoviesCard.css';
 
 function MoviesCard ({
-  movie,
-  isSavedMovie,
-  onSavedMovie,
-  onDeleteMovie}) {
+
+    movie,
+    isSavedMovie,
+    onSavedMovie,
+    onDeleteMovie,
+    isCurrentlySaved
+
+  }) {
 
 
   const savedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
@@ -48,10 +52,10 @@ function MoviesCard ({
       :
 
       (<li className="movie__element">
-        <button className={`movie__btn ${ !isAddedMovie ?  `movie__btn_notSaved` :  `movie__btn_saved`}`}
+        <button className={`movie__btn ${ !isAddedMovie && !movie.isCurrentlySaved ?  `movie__btn_notSaved` :  `movie__btn_saved`}`}
           type="button"
           onClick={() => toggleMovieSavedState(movie)}>
-          { !isAddedMovie ? `Сохранить` : `` }
+          { !isAddedMovie && !movie.isCurrentlySaved ? `Сохранить` : `` }
         </button>
         <a className="movie__trailerlink"
           href={movie.trailer}

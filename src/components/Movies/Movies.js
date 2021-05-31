@@ -15,7 +15,8 @@ function Movies ({
   isLoading,
   onFilter,
   onErr,
-  initialMovies
+  initialMovies,
+  isCurrentlySaved
   }) {
 
 
@@ -97,6 +98,7 @@ function Movies ({
           onBtnClick={handleShowMoreMovies}
           moviesToShow={getMoviesToShowNumber}
           initialMovies={getMoviesNumber}
+          isCurrentlySaved={isCurrentlySaved}
         />
       }
 
