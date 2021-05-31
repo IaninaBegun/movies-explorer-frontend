@@ -28,7 +28,7 @@ function App() {
 
   const [ isLoggedIn, setIsLoggedIn ] = React.useState(null);
   const [ currentUser, setCurrentUser ] = React.useState([]);
-  const [ adjustedMovies, setAdjustedMovies ] = React.useState([]);
+  /*const [ adjustedMovies, setAdjustedMovies ] = React.useState([]);*/
   const [ isInfoTooltipPopupOpen, setInfoTooltipPopupOpen ] = React.useState(false);
   const [ isLoading, setIsLoading ] = React.useState(false);
   const [ moviesFound, setMoviesFound ] = React.useState([]);
@@ -36,7 +36,6 @@ function App() {
   const [ savedMovies, setSavedMovies ] = React.useState([]);
   const [ isFindingErr, setFindingErr ] = React.useState(false);
   const [ isCurrentlySaved, setIsCurentlySaved ] = React.useState(false);
-  /*const [  ]*/
 
   /* эффект для загрузки найденных фильмов (если они есть)
   пользователя при повторном входе на сайт */
@@ -63,6 +62,7 @@ function App() {
         if (res) {
           setIsLoggedIn(true);
           setCurrentUser(res);
+          history.push('/movies');
         }
       })
       .catch((err) => {
@@ -103,7 +103,7 @@ function App() {
         nameEN: `${movie.nameEN}` || `Название отсутствует.`
       }
     });
-    setAdjustedMovies(newMovies);
+    /*setAdjustedMovies(newMovies);*/
     localStorage.setItem('moviesTotal', JSON.stringify(newMovies) );
   }
 
@@ -139,7 +139,6 @@ function App() {
       .then((res) => {
         if (res.status !== 400) {
           handleLogin(password, email);
-          /*setIsLoggedIn(true);*/
           history.push('/movies');
           setErrMessage(`Регистрация прошла успешно!`);
           setInfoTooltipPopupOpen(true);
@@ -180,60 +179,6 @@ function App() {
 
   /* функция добавления/удаления фильмов из сохранённых на странице /movies */
 
-  /*function handleSaveMovie(movie) {
-
-    const localSavedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
-
-    const isSavedMovie = localSavedMovies.some(i => i.movieId === movie.movieId);
-
-    if (!isSavedMovie) {
-
-      MainApi.addNewMovie(movie)
-        .then((newMovie) => {
-
-          setSavedMovies([newMovie, ...localSavedMovies]);
-          movie.isCurrentlySaved = true;
-          localStorage.setItem('moviesSaved', JSON.stringify(localSavedMovies) );
-      })
-      .catch((err) => {
-        setErrMessage(err);
-        setInfoTooltipPopupOpen(true);
-      })
-      .finally(() => {
-        setErrMessage('');
-        closeAllPopups();
-      })
-    }
-  }
-
-  function handleDeleteMovie(movie) {
-    /*console.log(`я в удалении`);
-    const localSavedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
-    const savedMovieToDelete = localSavedMovies.find(i => i.movieId === movie.movieId);
-
-    MainApi.deleteCard(savedMovieToDelete._id)
-      .then(() => {
-
-        const newMovies = localSavedMovies.filter((movieSaved) => {
-          return movieSaved.movieId !== savedMovieToDelete.movieId;
-        });
-
-        setSavedMovies(newMovies);
-        movie.isCurrentlySaved = false;
-        localStorage.setItem('moviesSaved', JSON.stringify(localSavedMovies) );
-    })
-    .catch((err) => {
-      setErrMessage(err);
-      setInfoTooltipPopupOpen(true);
-    })
-    .finally(() => {
-      setErrMessage('');
-      closeAllPopups();
-    })
-  }*/
-
-  /* функция добавления/удаления фильмов из сохранённых на странице /movies */
-
   function handleSaveMovie(movie) {
     console.log(`я в сохранении`);
     const isSavedMovie = savedMovies.some(i => i.movieId === movie.movieId);
@@ -245,7 +190,6 @@ function App() {
 
           setSavedMovies([newMovie, ...savedMovies]);
           setIsCurentlySaved(true);
-          /*movie.isCurrentlySaved = true;*/
           localStorage.setItem('moviesSaved', JSON.stringify([newMovie, ...savedMovies]) );
       })
       .catch((err) => {
@@ -255,6 +199,7 @@ function App() {
     }
   }
 
+  /* функция удаления фильмов */
   function handleDeleteMovie(movie) {
     const savedMovieToDelete = savedMovies.find(i => i.movieId === movie.movieId);
 
@@ -265,8 +210,7 @@ function App() {
           return movieSaved.movieId !== savedMovieToDelete.movieId;
         });
         console.log(newMovies);
-        setSavedMovies([...newMovies]);
-        /*movie.isCurrentlySaved = false;*/
+        setSavedMovies(newMovies);
         setIsCurentlySaved(false);
         localStorage.setItem('moviesSaved', JSON.stringify(newMovies) );
     })
@@ -386,6 +330,24 @@ function App() {
 
   }
 
+  function searchSavedMovies (movieToFind) {
+    const localSavedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
+    const foundMoviesArray = localSavedMovies.filter(movie => {
+      return movie.nameRU.toLowerCase().includes(movieToFind);
+    });
+    setSavedMovies(foundMoviesArray);
+  }
+
+  /* функция фильтра фильмов на странице /saved-movies*/
+
+  function filterSavedMovies() {
+    const localSavedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
+    const moviesFilteredArray = localSavedMovies.filter(movie => {
+      return movie.duration <= 40;
+    });
+    setSavedMovies(moviesFilteredArray);
+  }
+
   /* функция для открытия информационного попапа */
 
   function openErrorMessagePopup () {
@@ -413,7 +375,6 @@ function App() {
   }
 
   function checkIfSaved (movie) {
-    /*const savedMovies = JSON.parse(localStorage.getItem('moviesSaved'));*/
     const isAddedMovie = savedMovies ? savedMovies.find((i) => i.movieId === movie.movieId) : ``;
     if (isAddedMovie) {
       setIsCurentlySaved(true);
@@ -457,6 +418,8 @@ function App() {
             isSaved={true}
             isLoading={isLoading}
             onDeleteMovie={handleDeleteMovie}
+            onSearch={searchSavedMovies}
+            onFilter={filterSavedMovies}
           />
 
           <ProtectedRoute exact path="/profile"

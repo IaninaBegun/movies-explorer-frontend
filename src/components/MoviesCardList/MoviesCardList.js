@@ -1,5 +1,4 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
@@ -12,12 +11,6 @@ function MoviesCardList ( {
     checkIfSaved,
     savedMovies
   } ) {
-
-  /*console.log(foundMovies);*/
-
-  const location = useLocation();
-  const moviesLocation = location.pathname === '/movies';
-  const savedMoviesLocation = location.pathname === '/saved-movies';
 
 
   const isNotFound = foundMovies && foundMovies.length > 0 ? true : false;
@@ -48,7 +41,7 @@ function MoviesCardList ( {
 
   React.useEffect(() => {
     setTimeout(() => {
-     window.addEventListener('resize', () => getMoviesNumber);
+     window.addEventListener('resize', () => getMoviesNumber());
     }, 300);
   }, []);
 
