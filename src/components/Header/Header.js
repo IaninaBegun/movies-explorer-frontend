@@ -7,25 +7,25 @@ import NavigationMainPage from '../NavigationMainPage/NavigationMainPage';
 
 import './Header.css';
 
-function Header () {
+function Header ({isLoggedIn}) {
   return (
     <header className="header page__section">
       <Switch>
           <Route exact path="/">
             <Link to="/" className="header__logo-link"/>
-            <NavigationMainPage/>
+            { isLoggedIn ? <Navigation/> : <NavigationMainPage/> }
           </Route>
           <Route path="/movies">
             <Link to="/" className="header__logo-link"/>
-            <Navigation/>
+            { isLoggedIn ? <Navigation/> : <NavigationMainPage/> }
           </Route>
           <Route path="/saved-movies">
             <Link to="/" className="header__logo-link"/>
-            <Navigation/>
+            { isLoggedIn ? <Navigation/> : <NavigationMainPage/> }
           </Route>
           <Route path="/profile">
             <Link to="/" className="header__logo-link"/>
-            <Navigation/>
+            { isLoggedIn ? <Navigation/> : <NavigationMainPage/> }
           </Route>
           <Route path="/signin">
             <Link to="/" className="header__logo-link"/>

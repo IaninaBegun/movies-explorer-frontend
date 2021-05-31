@@ -1,25 +1,88 @@
 import React from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
-import { initialMoviesCards } from '../../utils/constants';
 
-function MoviesCardList ( {isSavedMovies} ) {
+function MoviesCardList ( {
+    isSavedMovie,
+    foundMovies,
+    onSavedMovie,
+    onDeleteMovie,
+    isCurrentlySaved,
+    checkIfSaved,
+    savedMovies
+  } ) {
+
+  const isNotFound = foundMovies && foundMovies.length === 0 ? true : false;
+
+  /*movies, функция получения числа отображаемых изначально после поиска карточек */
+  const getMoviesNumber = () => {
+    if (window.innerWidth >= 900) {
+      return 12;
+    }
+    if (window.innerWidth >= 768) {
+      return 8;
+    }
+    if (window.innerWidth >= 300) {
+      return 5;
+    }
+  }
+
+  const [ moviesToRender, setMoviesToRender ] = React.useState(getMoviesNumber());
+
+  /*movies, функция получения числа карточек при клике на ещё */
+  const getMoviesToShowNumber = () => {
+    if (window.innerWidth >= 900) {
+      return 3;
+    } else {
+      return 2;
+    }
+  }
+
+  React.useEffect(() => {
+    setTimeout(() => {
+     window.addEventListener('resize', () => getMoviesNumber());
+    }, 300);
+  }, []);
+
+  const handleShowMoreMovies = () => {
+    setMoviesToRender(moviesToRender + getMoviesToShowNumber());
+  };
+
+  const moviesToDisplay = !isSavedMovie && foundMovies ? foundMovies.slice(0, moviesToRender) : foundMovies;
+
 
   return (
     <section className="movies page__section">
-      <ul className="movies__list">
-        {initialMoviesCards.map((movie) => {
-          const movieKey = movie.id;
+      {isNotFound ? ( `Ничего не найдено`) :
+
+        (<ul className="movies__list">
+
+        {moviesToDisplay.map((movie) => {
+          const movieKey = movie.movieId;
             return(
               <MoviesCard
                 key={movieKey}
                 movie={movie}
-                isSavedMovie={isSavedMovies}
+                isSavedMovie={isSavedMovie}
+                foundMovies={foundMovies}
+                onSavedMovie={onSavedMovie}
+                onDeleteMovie={onDeleteMovie}
+                isCurrentlySaved={isCurrentlySaved}
+                checkIfSaved={checkIfSaved}
+                savedMovies={savedMovies}
               />
             );
         })}
-      </ul>
-      <button type="submit" className={ !isSavedMovies ? `movies__btn` : `movies__btn_invsible`}>Ещё</button>
+
+      </ul>)
+    }
+
+     { <button
+        type="submit"
+        className={ !foundMovies || (!isSavedMovie && moviesToRender < foundMovies.length) ? `movies__btn` : `movies__btn_invsible`}
+        onClick={() => handleShowMoreMovies()}
+      >Ещё</button> }
+
     </section>
   )
 }
