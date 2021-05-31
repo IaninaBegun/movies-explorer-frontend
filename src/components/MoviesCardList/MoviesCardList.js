@@ -8,7 +8,9 @@ function MoviesCardList ( {
     foundMovies,
     onSavedMovie,
     onDeleteMovie,
-    isCurrentlySaved
+    isCurrentlySaved,
+    checkIfSaved,
+    savedMovies
   } ) {
 
   /*console.log(foundMovies);*/
@@ -74,6 +76,8 @@ function MoviesCardList ( {
                 onSavedMovie={onSavedMovie}
                 onDeleteMovie={onDeleteMovie}
                 isCurrentlySaved={isCurrentlySaved}
+                checkIfSaved={checkIfSaved}
+                savedMovies={savedMovies}
               />
             );
         })}

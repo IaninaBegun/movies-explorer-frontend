@@ -36,6 +36,7 @@ function App() {
   const [ savedMovies, setSavedMovies ] = React.useState([]);
   const [ isFindingErr, setFindingErr ] = React.useState(false);
   const [ isCurrentlySaved, setIsCurentlySaved ] = React.useState(false);
+  /*const [  ]*/
 
   /* эффект для загрузки найденных фильмов (если они есть)
   пользователя при повторном входе на сайт */
@@ -234,7 +235,7 @@ function App() {
   /* функция добавления/удаления фильмов из сохранённых на странице /movies */
 
   function handleSaveMovie(movie) {
-
+    console.log(`я в сохранении`);
     const isSavedMovie = savedMovies.some(i => i.movieId === movie.movieId);
 
     if (!isSavedMovie) {
@@ -278,7 +279,8 @@ function App() {
   /* функция для клика по кнопке сохранить/удалить */
 
   function handleCLickMovieButton(movie) {
-    if (!isCurrentlySaved && !movie._id) {
+    const isSavedMovie = savedMovies.some(i => i.movieId === movie.movieId);
+    if (!movie._id && !isSavedMovie) {
       handleSaveMovie(movie);
     } else {
       handleDeleteMovie(movie);
@@ -410,6 +412,17 @@ function App() {
     history.push('/signup');
   }
 
+  function checkIfSaved (movie) {
+    /*const savedMovies = JSON.parse(localStorage.getItem('moviesSaved'));*/
+    const isAddedMovie = savedMovies ? savedMovies.find((i) => i.movieId === movie.movieId) : ``;
+    if (isAddedMovie) {
+      setIsCurentlySaved(true);
+    } else {
+      setIsCurentlySaved(false);
+    }
+  }
+
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -433,6 +446,8 @@ function App() {
             onFilter={filterMovies}
             onErr={isFindingErr}
             isCurrentlySaved={isCurrentlySaved}
+            checkIfSaved={checkIfSaved}
+            savedMovies={savedMovies}
           />
 
           <ProtectedRoute exact path="/saved-movies"

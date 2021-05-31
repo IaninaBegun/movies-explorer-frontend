@@ -16,7 +16,9 @@ function Movies ({
   onFilter,
   onErr,
   initialMovies,
-  isCurrentlySaved
+  isCurrentlySaved,
+  checkIfSaved,
+  savedMovies
   }) {
 
 
@@ -99,6 +101,8 @@ function Movies ({
           moviesToShow={getMoviesToShowNumber}
           initialMovies={getMoviesNumber}
           isCurrentlySaved={isCurrentlySaved}
+          checkIfSaved={checkIfSaved}
+          savedMovies={savedMovies}
         />
       }
 

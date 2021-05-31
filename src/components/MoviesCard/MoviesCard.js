@@ -8,13 +8,15 @@ function MoviesCard ({
     isSavedMovie,
     onSavedMovie,
     onDeleteMovie,
-    isCurrentlySaved
+    isCurrentlySaved,
+    checkIfSaved,
+    savedMovies
 
   }) {
 
 
-  const savedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
-  console.log(savedMovies);
+  /*const savedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
+  console.log(savedMovies);*/
   const isAddedMovie = savedMovies ? savedMovies.find((i) => i.movieId === movie.movieId) : ``;
 
   function toggleMovieSavedState (movie) {
