@@ -344,6 +344,7 @@ function App() {
       .then((res) => {
         if (res) {
           setSavedMovies(res);
+          localStorage.setItem('moviesSaved', JSON.stringify(res) );
         }
       })
       .catch((err) => {
@@ -358,7 +359,7 @@ function App() {
         }
       })
     }
-    localStorage.setItem('moviesSaved', JSON.stringify(savedMovies) );
+
   }, [isLoggedIn]);
 
   function searchMovies (dataMovie) {

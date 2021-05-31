@@ -4,7 +4,7 @@ import SearchForm from '../SearchForm/SearchForm';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-import * as MainApi from '../../utils/MainApi';
+/*import * as MainApi from '../../utils/MainApi';*/
 
 
 function SavedMovies ({
@@ -14,6 +14,8 @@ function SavedMovies ({
     foundMovies,
     /*isLoggedIn*/
   }) {
+
+
 
   /* стейт для хранения всех сохранённых фильмов пользователя */
 
@@ -48,6 +50,7 @@ function SavedMovies ({
   }, [isLoggedIn]);*/
 
   const localSavedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
+  console.log(localSavedMovies);
 
   const [ savedFoundMovies, setSavedFoundMovies ] = React.useState(localSavedMovies);
 

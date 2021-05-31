@@ -34,7 +34,7 @@ function Profile( {onSignOut, onUpdateUser, onError} ) {
   const handleEmailChange = (e) => {
     setEmail(e.target.value)
     const regex = /^[^@]+@[^@.]+\.[^@]+$/;
-    if (!regex.test(String(e.target.value).toLowerCase())) {
+    if (!regex.test(String(e.target.value).toLowerCase()) ) {
       setEmailErrMessage('Некорректный email');
     } else {
       setEmailErrMessage('');
@@ -44,7 +44,11 @@ function Profile( {onSignOut, onUpdateUser, onError} ) {
   React.useEffect(() => {
     if (nameErrMessage || emailErrMessage) {
       setFormValid(false);
-    } if (name === currentUser.name && email === currentUser.email) {
+    }
+    if (!name || !email) {
+      setFormValid(false);
+    }
+    if (name === currentUser.name && email === currentUser.email) {
       setFormValid(false);
     }
      else {
@@ -55,11 +59,12 @@ function Profile( {onSignOut, onUpdateUser, onError} ) {
   function handleSubmit(e) {
 
     e.preventDefault();
-
-    onUpdateUser({
-      name: name,
-      email: email,
-    });
+    if (name && email) {
+      onUpdateUser({
+        name: name,
+        email: email,
+      });
+    }
   }
 
   return(

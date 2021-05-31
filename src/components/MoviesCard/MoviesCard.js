@@ -39,7 +39,7 @@ function MoviesCard ({
         <a className="movie__trailerlink"
           href={movie.trailer}
           target="_blank"
-          rel="noreferrer oopener"
+          rel="noreferrer noopener"
         >
           <img className="movie__image" src={movie.image} alt={movie.nameRU} />
         </a>
@@ -52,15 +52,15 @@ function MoviesCard ({
       :
 
       (<li className="movie__element">
-        <button className={`movie__btn ${ !isAddedMovie && !movie.isCurrentlySaved ?  `movie__btn_notSaved` :  `movie__btn_saved`}`}
+        <button className={`movie__btn ${ !isAddedMovie && !movie.isCurrentlySaved ?  `movie__btn_saved` :   `movie__btn_notSaved`}`}
           type="button"
           onClick={() => toggleMovieSavedState(movie)}>
-          { !isAddedMovie && !movie.isCurrentlySaved ? `Сохранить` : `` }
+          { !isAddedMovie && !movie.isCurrentlySaved ?  `` :  `Сохранить` }
         </button>
         <a className="movie__trailerlink"
           href={movie.trailer}
           target="_blank"
-          rel="noreferrer oopener"
+          rel="noreferrer noopener"
         >
         <img className="movie__image" src={movie.image} alt={movie.nameRU} />
         </a>
