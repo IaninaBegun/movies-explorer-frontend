@@ -52,10 +52,10 @@ function MoviesCard ({
       :
 
       (<li className="movie__element">
-        <button className={`movie__btn ${ !isAddedMovie && !movie.isCurrentlySaved ?  `movie__btn_saved` :   `movie__btn_notSaved`}`}
+        <button className={`movie__btn ${ !isAddedMovie && !movie.isCurrentlySaved ?  `movie__btn_notSaved` : `movie__btn_saved`}`}
           type="button"
           onClick={() => toggleMovieSavedState(movie)}>
-          { !isAddedMovie && !movie.isCurrentlySaved ?  `` :  `Сохранить` }
+          { !isAddedMovie && !movie.isCurrentlySaved ? `Сохранить` : `` }
         </button>
         <a className="movie__trailerlink"
           href={movie.trailer}
