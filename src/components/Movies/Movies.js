@@ -69,8 +69,8 @@ function Movies ({
 
   function handleFilterState() {
     setFilterChecked(!isFilterChecked);
-    if (!isFilterChecked);
-    if(isFilterChecked) {
+    if (isFilterChecked) return;
+    if(!isFilterChecked) {
       onFilter();
     }
   }

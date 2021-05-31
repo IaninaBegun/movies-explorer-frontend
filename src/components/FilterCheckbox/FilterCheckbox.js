@@ -12,7 +12,7 @@ function FilterCheckbox ({onFilter, isFilterChecked}) {
         className="filter-form__input"
         id="checkbox-filter"
         onChange={() => onFilter()}
-        checked={!isFilterChecked}/>
+        checked={isFilterChecked}/>
         <label htmlFor="checkbox-filter" className="filter-form__label"/>
       </div>
       <h2 className="filter-form__title">Короткометражки</h2>

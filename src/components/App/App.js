@@ -127,10 +127,6 @@ function App() {
         setErrMessage('Что-то пошло не так.');
       }
     })
-    .finally(() => {
-      setErrMessage('');
-      closeAllPopups();
-    })
   }
 
 
@@ -159,10 +155,6 @@ function App() {
           setErrMessage('Что-то пошло не так...')
         }
       })
-      .finally(() => {
-        setErrMessage('');
-        closeAllPopups();
-      })
   }
 
 
@@ -181,16 +173,12 @@ function App() {
       setInfoTooltipPopupOpen(true);
       setErrMessage(err);
     })
-    .finally(() => {
-      setErrMessage('');
-      closeAllPopups();
-    });
   }
 
 
   /* функция добавления/удаления фильмов из сохранённых на странице /movies */
 
-  function handleSaveMovie(movie) {
+  /*function handleSaveMovie(movie) {
 
     const localSavedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
 
@@ -217,7 +205,7 @@ function App() {
   }
 
   function handleDeleteMovie(movie) {
-    /*console.log(`я в удалении`);*/
+    /*console.log(`я в удалении`);
     const localSavedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
     const savedMovieToDelete = localSavedMovies.find(i => i.movieId === movie.movieId);
 
@@ -239,6 +227,48 @@ function App() {
     .finally(() => {
       setErrMessage('');
       closeAllPopups();
+    })
+  }*/
+
+  /* функция добавления/удаления фильмов из сохранённых на странице /movies */
+
+  function handleSaveMovie(movie) {
+
+    const isSavedMovie = savedMovies.some(i => i.movieId === movie.movieId);
+
+    if (!isSavedMovie) {
+
+      MainApi.addNewMovie(movie)
+        .then((newMovie) => {
+
+          setSavedMovies([newMovie, ...savedMovies]);
+          movie.isCurrentlySaved = true;
+          localStorage.setItem('moviesSaved', JSON.stringify([newMovie, ...savedMovies]) );
+      })
+      .catch((err) => {
+        setErrMessage(err);
+        setInfoTooltipPopupOpen(true);
+      })
+    }
+  }
+
+  function handleDeleteMovie(movie) {
+    const savedMovieToDelete = savedMovies.find(i => i.movieId === movie.movieId);
+
+    MainApi.deleteCard(savedMovieToDelete._id)
+      .then(() => {
+
+        const newMovies = savedMovies.filter((movieSaved) => {
+          return movieSaved.movieId !== savedMovieToDelete.movieId;
+        });
+        console.log(newMovies);
+        setSavedMovies([...newMovies]);
+        movie.isCurrentlySaved = false;
+        localStorage.setItem('moviesSaved', JSON.stringify(newMovies) );
+    })
+    .catch((err) => {
+      setErrMessage(err);
+      setInfoTooltipPopupOpen(true);
     })
   }
 
@@ -287,6 +317,7 @@ function App() {
     MoviesApi.getMovies()
       .then((data) => {
         adjustData(data);
+        searchMovies(dataMovie);
       })
       .catch((err) => {
         setFindingErr(true);
@@ -296,8 +327,36 @@ function App() {
         setIsLoading(false);
         setFindingErr(false);
       })
-    searchMovies(dataMovie);
+
   }
+
+  /* эффект для загрузки и сохранения сохранённых фильмов
+  пользователя при входе на сайт */
+
+  React.useEffect(() => {
+    if (!isLoggedIn) return;
+    const jwt = localStorage.getItem('jwt');
+    if(jwt) {
+      MainApi.getSavedMovies()
+      .then((res) => {
+        if (res) {
+          setSavedMovies(res);
+        }
+      })
+      .catch((err) => {
+        setInfoTooltipPopupOpen(true);
+        if (err === 400) {
+          setErrMessage( `Ошибка 400: Токен не передан или передан не в том формате.` );
+        }
+        if (err === 401) {
+          setErrMessage( 'Ошибка 401: Переданный токен некорректен.' );
+        } else {
+          setErrMessage('Что-то пошло не так');
+        }
+      })
+    }
+    localStorage.setItem('moviesSaved', JSON.stringify(savedMovies) );
+  }, [isLoggedIn]);
 
   function searchMovies (dataMovie) {
 
@@ -332,6 +391,7 @@ function App() {
   function closeAllPopups() {
 
     setInfoTooltipPopupOpen(false);
+    setErrMessage('');
 
   }
 
@@ -373,6 +433,7 @@ function App() {
           <ProtectedRoute exact path="/saved-movies"
             component={SavedMovies}
             isLoggedIn={isLoggedIn}
+            foundMovies={savedMovies}
             isSaved={true}
             isLoading={isLoading}
             onDeleteMovie={handleDeleteMovie}

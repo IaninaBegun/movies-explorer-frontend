@@ -11,18 +11,19 @@ function SavedMovies ({
     isSaved,
     onSavedMovie,
     onDeleteMovie,
-    isLoggedIn
+    foundMovies,
+    /*isLoggedIn*/
   }) {
 
   /* стейт для хранения всех сохранённых фильмов пользователя */
 
-  const [ savedMovies, setSavedMovies ] = React.useState([]);
+  /*const [ savedMovies, setSavedMovies ] = React.useState([]);*/
 
 
   /* эффект для загрузки и сохранения сохранённых фильмов
   пользователя при входе на сайт */
 
-  React.useEffect(() => {
+  /*React.useEffect(() => {
     if (!isLoggedIn) return;
     const jwt = localStorage.getItem('jwt');
     if(jwt) {
@@ -44,14 +45,17 @@ function SavedMovies ({
       })
     }
     localStorage.setItem('moviesSaved', JSON.stringify(savedMovies) );
-  }, [isLoggedIn]);
+  }, [isLoggedIn]);*/
 
   const localSavedMovies = JSON.parse(localStorage.getItem('moviesSaved'));
 
   const [ savedFoundMovies, setSavedFoundMovies ] = React.useState(localSavedMovies);
 
   function searchSavedMovies (movieToFind) {
-    const foundMoviesArray = savedMovies.filter(movie => {
+    /*const foundMoviesArray = savedMovies.filter(movie => {
+      return movie.nameRU.toLowerCase().includes(movieToFind);
+    });*/
+    const foundMoviesArray = foundMovies.filter(movie => {
       return movie.nameRU.toLowerCase().includes(movieToFind);
     });
     setSavedFoundMovies(foundMoviesArray);
@@ -60,7 +64,10 @@ function SavedMovies ({
   /* функция фильтра фильмов на странице /saved-movies*/
 
   function filterSavedMovies() {
-    const moviesFilteredArray = savedMovies.filter(movie => {
+    /*const moviesFilteredArray = savedMovies.filter(movie => {
+      return movie.duration <= 40;
+    });*/
+    const moviesFilteredArray = foundMovies.filter(movie => {
       return movie.duration <= 40;
     });
     setSavedFoundMovies(moviesFilteredArray);
@@ -71,10 +78,10 @@ function SavedMovies ({
 
   function handleFilterState() {
     setFilterChecked(!isFilterChecked);
-    if (!isFilterChecked) {
+    if (isFilterChecked) {
       return savedFoundMovies;
     }
-    if(isFilterChecked) {
+    if(!isFilterChecked) {
       filterSavedMovies();
     }
   }
