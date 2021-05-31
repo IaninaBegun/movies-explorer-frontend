@@ -12,8 +12,7 @@ function MoviesCardList ( {
     savedMovies
   } ) {
 
-
-  const isNotFound = foundMovies && foundMovies.length > 0 ? true : false;
+  const isNotFound = foundMovies && foundMovies.length === 0 ? true : false;
 
   /*movies, функция получения числа отображаемых изначально после поиска карточек */
   const getMoviesNumber = () => {
@@ -54,7 +53,7 @@ function MoviesCardList ( {
 
   return (
     <section className="movies page__section">
-      {!isNotFound || !foundMovies ? ( `Ничего не найдено`) :
+      {isNotFound ? ( `Ничего не найдено`) :
 
         (<ul className="movies__list">
 
@@ -78,11 +77,11 @@ function MoviesCardList ( {
       </ul>)
     }
 
-      <button
+     { <button
         type="submit"
         className={ !foundMovies || (!isSavedMovie && moviesToRender < foundMovies.length) ? `movies__btn` : `movies__btn_invsible`}
         onClick={() => handleShowMoreMovies()}
-      >Ещё</button>
+      >Ещё</button> }
 
     </section>
   )

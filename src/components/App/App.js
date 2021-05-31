@@ -20,7 +20,6 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import * as MoviesApi from '../../utils/MoviesApi';
 import * as MainApi from '../../utils/MainApi';
 
-import imageDefault from '../../images/icon-menu-close-diploma.svg';
 
 function App() {
 
@@ -28,7 +27,6 @@ function App() {
 
   const [ isLoggedIn, setIsLoggedIn ] = React.useState(null);
   const [ currentUser, setCurrentUser ] = React.useState([]);
-  /*const [ adjustedMovies, setAdjustedMovies ] = React.useState([]);*/
   const [ isInfoTooltipPopupOpen, setInfoTooltipPopupOpen ] = React.useState(false);
   const [ isLoading, setIsLoading ] = React.useState(false);
   const [ moviesFound, setMoviesFound ] = React.useState([]);
@@ -47,8 +45,10 @@ function App() {
     const savedFoundMovies = localStorage.getItem('moviesFound');
     const moviesSavedByUser = localStorage.getItem('moviesSaved');
     if (jwt) {
-      setMoviesFound(JSON.parse(savedFoundMovies));
-      setSavedMovies(JSON.parse(moviesSavedByUser));
+      const newMoviesFound = JSON.parse(savedFoundMovies) || [];
+      const newSavedMovies = JSON.parse(moviesSavedByUser) || [];
+      setMoviesFound(newMoviesFound);
+      setSavedMovies(newSavedMovies);
     }
   }, [isLoggedIn]);
 
@@ -96,9 +96,9 @@ function App() {
         duration: `${movie.duration ? `${movie.duration}` : `0`}`,
         year: `${movie.year ? `${movie.year}` : `0`}`,
         description: `${movie.description ? `${movie.description}` : `Описание отсутствует.`}`,
-        image: `${movie.image && movie.image.url ? `https://api.nomoreparties.co${movie.image.url}` : `${imageDefault}`}`,
-        trailer: `${movie.trailerLink ? `${movie.trailerLink}` : `https://youtube.com`}`,
-        thumbnail: `${movie.image && movie.image.formats && movie.image.formats.thumbnail && movie.image.formats.thumbnail.url ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}` : `${imageDefault}`}`,
+        image: `${movie.image && movie.image.url ? `https://api.nomoreparties.co${movie.image.url}` : `https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg`}`,
+        trailer: `${movie.trailerLink ?  `${movie.trailerLink}` : `https://youtube.com`}`,
+        thumbnail: `${movie.image && movie.image.formats && movie.image.formats.thumbnail && movie.image.formats.thumbnail.url ? `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}` : `https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg`}`,
         nameRU: `${movie.nameRU}` || `Название отсутствует.`,
         nameEN: `${movie.nameEN}` || `Название отсутствует.`
       }
@@ -180,7 +180,6 @@ function App() {
   /* функция добавления/удаления фильмов из сохранённых на странице /movies */
 
   function handleSaveMovie(movie) {
-    console.log(`я в сохранении`);
     const isSavedMovie = savedMovies.some(i => i.movieId === movie.movieId);
 
     if (!isSavedMovie) {
@@ -209,7 +208,6 @@ function App() {
         const newMovies = savedMovies.filter((movieSaved) => {
           return movieSaved.movieId !== savedMovieToDelete.movieId;
         });
-        console.log(newMovies);
         setSavedMovies(newMovies);
         setIsCurentlySaved(false);
         localStorage.setItem('moviesSaved', JSON.stringify(newMovies) );
@@ -256,7 +254,6 @@ function App() {
     }
 
   }, [isLoggedIn, history]);
-
 
   /* функция для получения фильмов с сервера BeatFilm */
 
